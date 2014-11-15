@@ -6,7 +6,7 @@ public class Gerador {
 	public static void main(String[] args) {
 		try {
 			Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
-			InterfaceCaixa impl = (InterfaceCaixa) registry.lookup("hey");
+			InterfaceCaixa impl = (InterfaceCaixa) registry.lookup("caixa");
 
 			Scanner scanner = new Scanner(System.in);
 
