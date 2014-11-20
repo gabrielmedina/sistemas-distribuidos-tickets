@@ -15,9 +15,15 @@ public class Caixa {
 			System.out.println("Chamar o próximo bilhete");
 			
 			while (scanner.nextLine() != null) {
+				System.out.println("Estamos verificando!");
+				System.out.println("Aguarde o próximo bilhete ser gerado... \n");
+				
+				while(!impl.checarFila()) { }
+				
 				Bilhete bilhete = impl.proximoBilhete(impl.getAtendente());
 				
 				if(bilhete != null){
+					System.out.println("Próximo atendimento");
 					System.out.println("--------------------");
 					System.out.println("Senha: " + bilhete.getSenha());
 					System.out.println("Cliente: " + bilhete.getCliente());

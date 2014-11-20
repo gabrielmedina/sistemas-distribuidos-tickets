@@ -11,20 +11,21 @@ public class InterfaceCaixaImpl extends UnicastRemoteObject implements
 	private int atendenteID = 1;
 
 	// Construtores
-	public InterfaceCaixaImpl(InterfacePainel implPainel) throws RemoteException {
+	public InterfaceCaixaImpl(InterfacePainel implPainel)
+			throws RemoteException {
 		this.bilhetes = new ArrayList<Bilhete>();
 		this.implPainel = implPainel;
 	}
 
 	// Métodos
-	public String getAtendente(){
+	public String getAtendente() {
 		return "Caixa " + this.atendenteID++;
 	}
-	
+
 	public Bilhete gerarBilhete(Bilhete bilhete) throws RemoteException {
 		int senha;
-		
-		if(bilhetes.size() == 0){
+
+		if (bilhetes.size() == 0) {
 			senha = 1;
 		} else {
 			Bilhete b = bilhetes.get(bilhetes.size() - 1);
@@ -38,38 +39,46 @@ public class InterfaceCaixaImpl extends UnicastRemoteObject implements
 	}
 
 	public Bilhete proximoBilhete(String caixa) throws RemoteException {
-		if(this.bilhetes.size() != 0){
-			for(int i = 0; i < this.bilhetes.size(); i++){
+		if (this.bilhetes.size() != 0) {
+			for (int i = 0; i < this.bilhetes.size(); i++) {
 				Bilhete bilhete = this.bilhetes.get(i);
-				
-				if(bilhete.getPrioridade().equalsIgnoreCase("Alta")){
+
+				if (bilhete.getPrioridade().equalsIgnoreCase("Alta")) {
 					this.bilhetes.remove(i);
-					
+
 					bilhete.setAtendente(caixa);
-					
+
 					try {
 						implPainel.proximoBilhete(bilhete);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
+
 					return bilhete;
 				}
-			}		
-			
-			Bilhete bilhete = this.bilhetes.get(0);	
+			}
+
+			Bilhete bilhete = this.bilhetes.get(0);
 			this.bilhetes.remove(0);
 			bilhete.setAtendente(caixa);
-			
+
 			try {
 				implPainel.proximoBilhete(bilhete);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			return bilhete;
 		}
-		
+
 		return null;
+	}
+
+	public Boolean checarFila() throws RemoteException {
+		if(this.bilhetes.size() == 0){
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
