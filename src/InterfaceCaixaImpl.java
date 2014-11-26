@@ -8,6 +8,8 @@ public class InterfaceCaixaImpl extends UnicastRemoteObject implements
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Bilhete> bilhetes;
 	private InterfacePainel implPainel;
+	
+	private int bilheteSenha = 0;
 	private int atendenteID = 1;
 
 	// Construtores
@@ -23,16 +25,9 @@ public class InterfaceCaixaImpl extends UnicastRemoteObject implements
 	}
 
 	public Bilhete gerarBilhete(Bilhete bilhete) throws RemoteException {
-		int senha;
-
-		if (bilhetes.size() == 0) {
-			senha = 1;
-		} else {
-			Bilhete b = bilhetes.get(bilhetes.size() - 1);
-			senha = Integer.parseInt(b.getSenha()) + 1;
-		}
-
-		bilhete.setSenha(String.valueOf(senha));
+		this.bilheteSenha += 1;
+		
+		bilhete.setSenha(String.valueOf(this.bilheteSenha));
 		bilhetes.add(bilhete);
 
 		return bilhete;
